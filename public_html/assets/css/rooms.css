@@ -1,0 +1,287 @@
+/* Modern, clean and professional styles for rooms admin area */
+
+:root {
+    --bg: #f6f8fb;
+    --surface: #ffffff;
+    --muted: #6b7280;
+    --text: #0f172a;
+    --primary: #0ea5e9;
+    --primary-600: #0284c7;
+    --success: #16a34a;
+    --danger: #ef4444;
+    --glass: rgba(255,255,255,0.6);
+    --radius-sm: 8px;
+    --radius: 12px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 4px 10px rgba(15,23,42,0.06);
+    --shadow-md: 0 10px 30px rgba(15,23,42,0.08);
+    --gap: 1rem;
+    --max-width: 1100px;
+    --transition: 180ms cubic-bezier(.2,.9,.3,1);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    color-scheme: light;
+}
+
+/* Page wrapper */
+.admin-wrap {
+    max-width: var(--max-width);
+    margin: 32px auto;
+    padding: 24px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), transparent);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+/* Header */
+.admin-wrap h2 {
+    margin: 0 0 12px 0;
+    font-size: 1.5rem;
+    color: var(--text);
+    font-weight: 600;
+}
+
+/* Compact toolbar */
+.admin-toolbar {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+/* Form / inputs */
+form#addRoomForm, .form-container {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    flex-wrap: wrap;
+    background: transparent;
+    margin-bottom: 8px;
+}
+
+.input {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #e6edf3;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.95rem;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition), transform var(--transition);
+}
+.input:focus {
+    outline: none;
+    box-shadow: 0 6px 20px rgba(14,165,233,0.14);
+    border-color: var(--primary-600);
+}
+
+.input[type="number"] { width: 110px; }
+
+/* file input */
+.input[type="file"] {
+    padding: 8px;
+    border: 1px dashed #e6edf3;
+    background: linear-gradient(180deg, #fbfeff, #ffffff);
+}
+
+/* Buttons */
+.btn-admin {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 9px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 6px 18px rgba(2,132,199,0.12);
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+.btn-admin:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.btn-admin.secondary {
+    background: #f3f4f6;
+    color: var(--text);
+    box-shadow: none;
+}
+.btn-admin.danger {
+    background: var(--danger);
+    box-shadow: 0 6px 18px rgba(239,68,68,0.12);
+}
+
+/* Table fallback (keeps compatibility with previous markup) */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: transparent;
+    margin-top: 12px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+.table thead {
+    background: linear-gradient(90deg,#f8fafc,#ffffff);
+}
+.table th, .table td {
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+.table tbody tr:hover { background: #fbfdff; }
+
+/* garantir thumbnails nas tabelas */
+.table img, .thumb-cell img {
+  max-height: 80px;
+  width: auto;
+  display: block;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* células de thumb com espaço */
+.thumb-cell { width: 100px; padding: 6px; }
+
+/* estilo do formulário inline (edição) */
+.inlineEdit input[type="text"],
+.inlineEdit input[type="number"],
+.inlineEdit select {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e6eef8;
+  background: #fff;
+}
+
+/* botões compactos */
+.inlineEdit .btn-admin { padding: 8px 10px; border-radius: 8px; }
+.inlineEdit .btn-admin.danger { background: #fbb6b6; color: #7a1f1f; }
+
+/* Rooms grid (preferred UI) */
+.rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin-top: 12px;
+}
+
+/* Card */
+.room-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid #eef2f6;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+.room-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(15,23,42,0.08);
+}
+
+/* Image */
+.room-image-wrapper {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    background: linear-gradient(180deg,#eef8fd,#ffffff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.room-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 350ms ease;
+}
+.room-card:hover .room-image-wrapper img { transform: scale(1.04); }
+
+/* Badge */
+.status-badge {
+    position: absolute;
+    margin: 12px;
+    right: 12px;
+    top: 12px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+    letter-spacing: 0.6px;
+    box-shadow: 0 6px 18px rgba(2,132,199,0.08);
+}
+.status-disponivel { background: var(--success); color: #04260f; }
+.status-indisponivel { background: var(--danger); }
+.status-brevemente { background: #f59e0b; color: #2b2b2b; }
+
+/* Card details */
+.room-details {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+.room-details h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--text);
+    font-weight: 600;
+}
+.room-meta {
+    color: var(--muted);
+    font-size: 0.9rem;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+/* Actions */
+.room-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+}
+.btn-action {
+    flex: 1;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.92rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background var(--transition), transform var(--transition);
+}
+.btn-edit {
+    background: rgba(14,165,233,0.08);
+    color: var(--primary-600);
+    border-color: rgba(2,132,199,0.12);
+}
+.btn-delete {
+    background: rgba(239,68,68,0.06);
+    color: var(--danger);
+    border-color: rgba(239,68,68,0.08);
+}
+
+/* Responsive behavior */
+@media (max-width: 720px) {
+    .admin-wrap { padding: 16px; margin: 18px; }
+    form#addRoomForm { gap: 8px; flex-direction: column; align-items: stretch; }
+    .input[type="number"] { width: 100%; }
+    .rooms-grid { grid-template-columns: 1fr; }
+}
+
+/* Utility / accessibility */
+a, button { -webkit-tap-highlight-color: transparent; }
+.button-focus:focus, .input:focus, .btn-admin:focus {
+    outline: 3px solid rgba(2,132,199,0.14);
+    outline-offset: 2px;
+}
+
+/* Small helpers for table-mode (keeps markup compatibility) */
+.r-nome { font-weight: 600; color: var(--text); }
+.r-cap, .r-estado { color: var(--muted); font-size: 0.95rem; }
+
+/* End of stylesheet */

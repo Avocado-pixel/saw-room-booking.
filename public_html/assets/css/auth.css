@@ -1,0 +1,53 @@
+/* Estilos para página de login e modal de sessão */
+:root{
+  --bg:#f3f6fb;
+  --card:#ffffff;
+  --accent:#0b5ed7;
+  --danger:#d9464a;
+  --radius:10px;
+  font-family: "Inter", Arial, sans-serif;
+}
+
+body{ margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#eef6ff 0%,#f3f6fb 100%); color:#0f1724; }
+
+.login-wrap{
+  width:100%;
+  max-width:420px;
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:0 10px 30px rgba(2,6,23,0.06);
+  padding:28px;
+}
+
+.login-wrap h2{ margin:0 0 12px 0; font-size:1.4rem; }
+
+.form-row{ margin-bottom:12px; display:flex; flex-direction:column; gap:6px; }
+.form-row label{ font-size:0.9rem; color:#344054; }
+.form-row input[type="email"],
+.form-row input[type="password"],
+.form-row input[type="text"]{
+  padding:10px 12px; border-radius:8px; border:1px solid #e6eef8; background:#fbfdff;
+  font-size:0.95rem; outline:none;
+}
+.form-row input:focus{ box-shadow:0 0 0 4px rgba(11,94,215,0.08); border-color:var(--accent); }
+
+.form-actions{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:8px; }
+.form-actions .remember{ display:flex; align-items:center; gap:8px; font-size:0.9rem; color:#475569; }
+.btn-login{ background:var(--accent); color:#fff; padding:10px 14px; border-radius:8px; border:0; font-weight:600; cursor:pointer; }
+
+.alert{ padding:10px 12px; border-radius:8px; font-size:0.95rem; background:#fff4e6; color:#854d00; border:1px solid #ffe8cc; display:none; }
+
+.session-modal{
+  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+  background:rgba(2,6,23,0.45); visibility:hidden; opacity:0; transition:opacity .18s ease;
+}
+.session-modal.active{ visibility:visible; opacity:1; }
+.session-modal .card{
+  background:var(--card); padding:18px; border-radius:10px; width:90%; max-width:420px; text-align:center;
+}
+.session-modal .card p{ margin:8px 0 14px 0; color:#0f1724; }
+.session-modal .card .actions{ display:flex; gap:10px; justify-content:center; }
+
+@media (max-width:480px){
+  .login-wrap{ margin:14px; padding:18px; }
+}

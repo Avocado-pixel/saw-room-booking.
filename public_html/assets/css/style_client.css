@@ -1,0 +1,154 @@
+/* Layout comum para área do cliente (utente) */
+
+:root {
+	--client-bg: #f6f9fc;
+	--client-panel: #ffffff;
+	--client-border: #e5e7eb;
+	--client-text: #0f172a;
+	--client-muted: #6b7280;
+	--client-accent: #0ea5e9;
+	--client-accent-600: #0284c7;
+	--client-radius: 10px;
+	/* alinhar sombras com o tema admin */
+	--client-shadow-sm: 0 4px 16px rgba(15,23,42,0.08);
+	--client-shadow-md: 0 8px 20px rgba(15,23,42,0.10);
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* altura total */
+html, body {
+	height: 100%;
+}
+
+/* fundo com imagem (fundocliente.jpg na mesma pasta deste CSS) + cor base */
+body {
+	margin: 0;
+	background-color: var(--client-bg);
+	background-image: url("fundocliente.jpg");
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: scroll;
+	color: var(--client-text);
+	/* garantir espaço para topbar (igual admin-area) */
+	padding-top: 64px;
+}
+
+/* Em ecrãs médios/grandes, fundo fixo (efeito mais agradável) */
+@media (min-height: 700px) and (min-width: 768px) {
+	body {
+		background-attachment: fixed;
+	}
+}
+
+/* barra fixa do cliente (usar mesma altura e gradiente da barra pública/admin) */
+.client-topbar {
+	position: fixed;
+	top: 0; left: 0; right: 0;
+	height: 64px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 0 18px; /* alinhado com .admin-topbar */
+	background: linear-gradient(90deg,#004ba0 0%, #0066cc 100%);
+	border-bottom: 1px solid rgba(15,23,42,0.08);
+	box-shadow: 0 6px 18px rgba(2,6,23,0.12);
+	z-index: 1000;
+}
+.client-topbar-left {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+.client-logo-mark {
+	width: 32px;
+	height: 32px;
+	border-radius: 9px;
+	background: linear-gradient(135deg, var(--client-accent), var(--client-accent-600));
+}
+.client-logo-text {
+	font-weight: 700;
+	font-size: 0.95rem;
+	color: #ffffff;
+}
+.client-topbar-nav {
+	display: flex;
+	gap: 8px;
+}
+.client-nav-link {
+	padding: 6px 10px;
+	border-radius: 8px;
+	text-decoration: none;
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: #e5e7eb;
+}
+.client-nav-link:hover {
+	background: rgba(255,255,255,0.06);
+	color: #ffffff;
+}
+.client-topbar-actions a {
+	padding: 6px 10px;
+	border-radius: 8px;
+	text-decoration: none;
+	font-size: 0.9rem;
+	color: #ffffff;
+}
+.client-logout {
+	background: #0f5132;
+	color: #fff;
+}
+
+/* content wrapper abaixo da barra */
+.client-wrap {
+	max-width: 1100px;          /* antes 1000px, um pouco mais largo */
+	margin: 80px auto 40px;     /* já centra horizontalmente */
+	padding: 0 24px;            /* ligeiro aumento de padding lateral */
+}
+
+/* pequenos utilitários */
+.client-card {
+	background: var(--client-panel);
+	border-radius: var(--client-radius);
+	border: 1px solid var(--client-border);
+	padding: 14px;
+	box-shadow: var(--client-shadow-sm);
+}
+.client-form-row {
+	margin-bottom: 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+.client-form-row input,
+.client-form-row select {
+	padding: 8px;
+	border-radius: 6px;
+	border: 1px solid var(--client-border);
+}
+.client-btn {
+	padding: 8px 12px;
+	border-radius: 8px;
+	border: 0;
+	cursor: pointer;
+	font-weight: 600;
+}
+.client-btn.primary {
+	background: #0f5132;
+	color: #fff;
+}
+
+/* responsivo */
+@media (max-width: 720px) {
+	.client-topbar {
+		padding: 0 12px;
+	}
+	.client-topbar-nav {
+		display: none;
+	}
+	.client-wrap {
+		margin-top: 80px;
+		padding: 0 14px;
+	}
+}

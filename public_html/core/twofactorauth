@@ -1,0 +1,114 @@
+<?php
+
+// Garante que carregas o autoload de todas as dependências instaladas via Composer
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use RobThree\Auth\TwoFactorAuth;
+use RobThree\Auth\Providers\Qr\IQRCodeProvider;
+use RobThree\Auth\Algorithm;
+
+/**
+ * Provider leve que usa a API QuickChart para gerar QR Codes.
+ *
+ * Vantagens:
+ * - Não precisa de extensões gráficas no servidor (GD/Imagick).
+ * - Apenas faz um pedido HTTP para obter a imagem PNG gerada.
+ */
+class QuickChartProvider implements IQRCodeProvider
+{
+    /**
+     * Indica o tipo de conteúdo (MIME type) gerado pelo provider.
+     */
+    public function getMimeType(): string
+    {
+        return 'image/png';
+    }
+
+    /**
+     * Recebe o texto que deve ser codificado no QR Code e o tamanho,
+     * constrói a URL da API QuickChart e devolve o conteúdo binário da imagem.
+     */
+    public function getQRCodeImage(string $qrText, int $size): string
+    {
+        // Codifica os dados do QR para serem usados de forma segura na URL
+        $chl = urlencode($qrText);
+        $chs = $size . 'x' . $size;
+        
+        // URL da API QuickChart para gerar um QR Code simples em PNG
+        $url = "https://quickchart.io/chart?chs={$chs}&chld=M|0&cht=qr&chl={$chl}";
+        
+        // Faz o download da imagem da API
+        // Nota: Requer que 'allow_url_fopen' esteja ON no php.ini (normal na maioria dos servidores)
+        $imageContent = @file_get_contents($url);
+
+        // Se algo correr mal (sem ligação, erro na API, etc.), lança exceção
+        if ($imageContent === false) {
+            throw new \Exception("Não foi possível gerar o QR Code. Verifique a conexão.");
+        }
+
+        // Devolve o conteúdo binário (PNG) do QR Code
+        return $imageContent;
+    }
+}
+
+/**
+ * Helper para lidar com operações comuns de 2FA (Two-Factor Authentication)
+ * com TOTP (Time-based One-Time Passwords).
+ */
+class TwoFAHelper
+{
+    /**
+     * Gera um segredo TOTP para o utilizador e o respetivo QR Code (como Data URI).
+     *
+     * @param string $label Nome/issuer a aparecer na app de autenticação (ex: 'SAW')
+     * @param string $email Email do utilizador (identificador no QR Code)
+     */
+    public static function generateForUser(string $label, string $email): array
+    {
+        // Instancia o nosso provider leve baseado na API QuickChart
+        $qrProvider = new QuickChartProvider();
+
+        // Construtor TwoFactorAuth:
+        // __construct(IQRCodeProvider $qrcodeprovider, string $issuer, int $digits, int $period, Algorithm $algorithm, ...)
+        // - issuer  = nome da app/serviço (label)
+        // - digits  = 6 dígitos por código
+        // - period  = 30 segundos por código
+        // - algorithm = algoritmo de hash usado (Sha1 por compatibilidade com Google Authenticator)
+        $tfa = new TwoFactorAuth($qrProvider, $label, 6, 30, Algorithm::Sha1);
+
+        // Cria um novo segredo TOTP para este utilizador
+        $secret = $tfa->createSecret();
+        
+        // Gera a imagem do QR Code em formato Data URI (para usar diretamente em <img src="...">)
+        $qrCodeUrl = $tfa->getQRCodeImageAsDataUri($email, $secret);
+
+        // Devolve o segredo (para guardar na BD) e o QR (para mostrar ao utilizador)
+        return [
+            'secret' => $secret,  // Guarda isto na BD (idealmente encriptado)
+            'qr'     => $qrCodeUrl // Põe isto no <img src="...">
+        ];
+    }
+
+    /**
+     * Verifica o código TOTP introduzido pelo utilizador na app de autenticação.
+     *
+     * Usa uma janela de 30 segundos (period=30) e não aceita derivações
+     * de relógio (tolerância 0), ou seja, apenas o intervalo atual.
+     */
+    public static function verifyCode(string $secret, string $code, string $label = 'SAW'): bool
+    {
+        // Remove espaços em branco adicionais que o utilizador possa ter introduzido
+        $code = trim($code);
+
+        // Validação básica de formato: tem de ser exatamente 6 dígitos numéricos
+        if (!preg_match('/^\d{6}$/', $code)) {
+            return false;
+        }
+
+        // Usa a biblioteca TwoFactorAuth, que calcula o TOTP com base no tempo atual
+        $tfa = new TwoFactorAuth(new QuickChartProvider(), $label, 6, 30, Algorithm::Sha1);
+
+        // Aceita APENAS a janela atual (0 = sem tolerância extra de relógio)
+        return $tfa->verifyCode($secret, $code, 0);
+    }
+}

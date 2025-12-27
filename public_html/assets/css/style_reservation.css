@@ -1,0 +1,40 @@
+/* Estilos para formulário de reserva e visualização de horários */
+:root{
+  --card:#ffffff;
+  --accent:#0b5ed7;
+  --success:#059669;
+  --warn:#f59e0b;
+  --danger:#ef4444;
+  --muted:#6b7280;
+  font-family: "Inter", Arial, sans-serif;
+  --radius:10px;
+}
+
+.reserve-wrap{ max-width:920px; margin:20px auto; padding:16px; background:var(--card); border-radius:var(--radius); box-shadow:0 6px 24px rgba(2,6,23,0.04); }
+
+.reserve-form{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; align-items:end; }
+.reserve-form .full{ grid-column:1/-1; }
+
+label{ display:block; font-size:0.9rem; margin-bottom:6px; color:#0f1724; }
+.input, .datetime{ padding:10px 12px; border-radius:8px; border:1px solid #e6eef8; }
+
+.btn-confirm{ background:var(--accent); color:#fff; padding:10px 12px; border-radius:8px; border:0; cursor:pointer; }
+
+.conflict{
+  padding:10px 12px; border-radius:8px; background:#fff7ed; color: #92400e; border:1px solid #ffedd5; margin-top:8px;
+  display:none;
+}
+
+.share-token{ font-family:monospace; background:#f8fafc; padding:8px 10px; border-radius:6px; border:1px dashed #e2e8f0; }
+
+.timeline{
+  margin-top:16px; background:#f8fafc; padding:12px; border-radius:8px; font-size:0.92rem; color:var(--muted);
+}
+
+/* states */
+.conflict.active{ display:block; }
+.note{ font-size:0.9rem; color:var(--muted); margin-top:6px; }
+
+@media (max-width:640px){
+  .reserve-form{ grid-template-columns:1fr; }
+}

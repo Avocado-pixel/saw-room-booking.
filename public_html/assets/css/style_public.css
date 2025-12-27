@@ -1,0 +1,313 @@
+/* Estilos para área pública - listagem de salas + painel lateral de Login/Registo */
+
+:root{
+  --bg:#f6f9fc;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --accent:#0057b7;
+  --radius:10px;
+  --gap:18px;
+  --maxw:1100px;
+  --shadow:0 4px 16px rgba(15,23,42,0.08);
+  --text:#0f172a;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* altura total + fundo */
+html,body{
+  height:100%;
+  margin:0;
+  background-color:var(--bg);
+  background-image:url("fundopublico.jpg");
+  background-position:center center;
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-attachment:scroll;
+  color:var(--text);
+}
+
+/* =========================
+   Topbar / Navegação global
+   ========================= */
+.topbar{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:64px;
+  /* MANTIDO: gradiente azul original */
+  background:linear-gradient(90deg,#004ba0 0%, #0066cc 100%);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  z-index:1000;
+  box-shadow:0 6px 18px rgba(2,6,23,0.12);
+}
+.topbar .logo{
+  font-weight:700;
+  font-size:1.05rem;
+  letter-spacing:0.2px;
+}
+.topbar .nav{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.topbar .nav a{
+  color:#fff;
+  text-decoration:none;
+  padding:8px 12px;
+  border-radius:8px;
+  font-weight:600;
+  transition:background .12s ease, transform .08s ease;
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.08);
+}
+.topbar .nav a:hover{
+  background:rgba(255,255,255,0.06);
+  transform:translateY(-1px);
+}
+.topbar .nav a.primary{
+  background:#fff;
+  color:#0057b7;
+  border:none;
+}
+.topbar .nav a.ghost{
+  background:transparent;
+  color:#fff;
+}
+
+/* Afasta o conteúdo para baixo para não ficar atrás do topbar */
+body{ padding-top:78px; }
+
+/* =========================
+   Layout de conteúdo
+   ========================= */
+.container{
+  max-width:var(--maxw);
+  margin:18px auto 28px;
+  padding:0 18px;
+}
+
+/* Header simples acima da grelha de salas */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+.header h1{
+  font-size:1.5rem;
+  margin:0;
+  font-weight:700;
+}
+.header p{
+  margin:0;
+  font-size:0.95rem;
+  color:var(--muted);
+}
+
+/* =========================
+   Grelha de salas
+   ========================= */
+.grid-salas{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(240px,1fr));
+  gap:var(--gap);
+  align-items:start;
+  margin-top:10px;
+}
+
+.sala{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  transition:transform .18s ease, box-shadow .18s ease;
+  overflow:hidden;
+}
+.sala:hover{
+  transform:translateY(-4px);
+  box-shadow:0 10px 24px rgba(15,23,42,0.12);
+}
+
+.sala img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+  border-radius:8px;
+  background:#e5e7eb;
+}
+
+.sala h3{
+  margin:4px 0 0 0;
+  font-size:1.05rem;
+  font-weight:600;
+  color:var(--text);
+}
+.sala p{
+  margin:0;
+  color:var(--muted);
+  font-size:0.95rem;
+}
+
+.sala .meta{
+  display:flex;
+  justify-content:space-between;
+  font-size:0.9rem;
+  color:var(--muted);
+}
+
+.sala .actions{
+  margin-top:auto;
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+}
+
+/* Botões */
+.btn{
+  display:inline-block;
+  padding:8px 12px;
+  border-radius:8px;
+  text-decoration:none;
+  cursor:pointer;
+  font-weight:600;
+  font-size:0.95rem;
+  border:0;
+}
+.btn-primary{
+  background:var(--accent);
+  color:#fff;
+}
+.btn-ghost{
+  background:transparent;
+  color:var(--accent);
+  border:1px solid rgba(0,87,183,0.15);
+}
+
+/* =========================
+   Painel lateral (login/registo) - se existir
+   ========================= */
+.aside-card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:14px;
+  box-shadow:var(--shadow);
+}
+
+/* Separador de abas (login/registo) */
+.tabs{
+  display:flex;
+  gap:6px;
+  margin-bottom:12px;
+}
+.tab{
+  flex:1;
+  text-align:center;
+  padding:8px 10px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+  background:#f3f6fb;
+  color:#0f1724;
+}
+.tab.active{
+  background:var(--accent);
+  color:#fff;
+}
+
+/* Formulários public (login/registo) */
+.form-row{
+  margin-bottom:10px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.form-row label{
+  font-size:0.9rem;
+  color:#344054;
+}
+.form-row input[type="email"],
+.form-row input[type="password"],
+.form-row input[type="text"],
+.form-row input[type="tel"]{
+  padding:9px 10px;
+  border-radius:8px;
+  border:1px solid #e6eef8;
+  background:#fbfdff;
+  font-size:0.95rem;
+  outline:none;
+}
+.form-row input:focus{
+  box-shadow:0 0 0 4px rgba(0,87,183,0.08);
+  border-color:var(--accent);
+}
+
+/* Ações no formulário */
+.form-actions{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:6px;
+}
+.form-actions .remember{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:0.9rem;
+  color:#475569;
+}
+.btn-login{
+  background:var(--accent);
+  color:#fff;
+  padding:10px 12px;
+  border-radius:8px;
+  border:0;
+  font-weight:600;
+  cursor:pointer;
+  width:100%;
+}
+.btn-register{
+  background:#0f5132;
+  color:#fff;
+  padding:10px 12px;
+  border-radius:8px;
+  border:0;
+  font-weight:600;
+  cursor:pointer;
+  width:100%;
+}
+
+/* Mensagens (alertas) */
+.alert{
+  padding:10px 12px;
+  border-radius:8px;
+  font-size:0.95rem;
+  display:none;
+  margin-bottom:8px;
+}
+.alert.success{
+  background:#ecfdf5;
+  color:#065f46;
+  border:1px solid #bbf7d0;
+}
+.alert.error{
+  background:#fff1f2;
+  color:#9f1239;
+  border:1px solid #fecaca;
+}
+
+/* Responsivo */
+@media (max-width:980px){
+  .container{
+    max-width:100%;
+    padding:0 16px 16px;
+  }
+}
